@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Tarefa</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 80px; }
+        .form-container { display: flex; flex-direction: column; width: 600px; margin: 0 auto; gap: 15px; text-align: left;}
+        h1 { font-size: 60px; margin-bottom: 40px; color: #077966; }
+        label { font-size: 30px; font-weight: bold; color: #4d6057; }
+        input, select, textarea, button { padding: 25px; font-size: 30px; border-radius: 40px; border: 1px solid #ccc; font-family: Arial, sans-serif; color: #787777}
+        input::placeholder, textarea::placeholder {font-family: Arial, sans-serif; color: #787777;}
+        button { background-color: #27cf67; color: rgb(1, 45, 43); border: none; cursor: pointer; font-weight: bold; }
+        button:hover { color: #06a543; color: white;}
+        .voltar { font-size: 25px; margin-top: 20px; display: inline-block; text-decoration: none; color: #007BFF; }
+        .voltar:hover {color: #1705db;}
+    </style>
+</head>
+
+<body>
+    <h1>Nova Tarefa</h1>
+
+    <form method="POST" action="/cadastrar_tarefa/" class="form-container">
+        {% csrf_token %}
+
+        <label>Título da Tarefa:</label>
+        <input type="text" name="titulo" required placeholder="Ex: Estudar para a prova">
+
+        <label>Descrição (Opcional):</label>
+        <textarea name="descricao" rows="3" placeholder="Detalhes da tarefa..."></textarea>
+
+        <label>Categoria:</label>
+        <select name="categoria" required>
+            <option value="">Selecione uma Categoria</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Prazo:</label>
+        <input type="date" name="data_limite" required>
+        <input type="time" name="horario_limite" value="23:59">
+
+        <label>Quando deseja começar a fazer a tarefa? (Opcional)</label>
+        <input type="date" name="data_execucao">
+
+        <button type="submit">Salvar Tarefa</button>
+    </form>
+
+    <a href="/" class="voltar">⇐ Voltar ao Menu Principal</a>
+</body>
+
+</html>
