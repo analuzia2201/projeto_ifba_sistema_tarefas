@@ -7,45 +7,60 @@
     <title>Cadastrar Tarefa</title>
 
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 80px; }
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 10px; }
         .form-container { display: flex; flex-direction: column; width: 600px; margin: 0 auto; gap: 15px; text-align: left;}
         h1 { font-size: 60px; margin-bottom: 40px; color: #077966; }
         label { font-size: 30px; font-weight: bold; color: #4d6057; }
-        input, select, textarea, button { padding: 25px; font-size: 30px; border-radius: 40px; border: 1px solid #ccc; font-family: Arial, sans-serif; color: #787777}
+        input, select, textarea, button { padding: 25px; font-size: 30px; border-radius: 40px; border: 1px solid #ccc; font-family: Arial, sans-serif; color: #787777; resize: none;}
+        button {margin-top: 25px;}
         input::placeholder, textarea::placeholder {font-family: Arial, sans-serif; color: #787777;}
         button { background-color: #27cf67; color: rgb(1, 45, 43); border: none; cursor: pointer; font-weight: bold; }
         button:hover { color: #06a543; color: white;}
-        .voltar { font-size: 25px; margin-top: 20px; display: inline-block; text-decoration: none; color: #007BFF; }
+        .voltar { font-size: 25px; margin-top: 30px; display: inline-block; text-decoration: none; color: #007BFF; }
         .voltar:hover {color: #1705db;}
     </style>
 </head>
 
 <body>
+    {% if messages %}
+        <div style="margin-bottom: 20px;">
+            {% for message in messages %}
+                <p style="padding: 10px; font-size: 22px; font-weight: bold; margin-top: 5px;
+                        {% if message.tags == 'error' %} background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; 
+                        {% elif message.tags == 'success' %} background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; {% endif %}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <h1>Nova Tarefa</h1>
 
     <form method="POST" action="/cadastrar_tarefa/" class="form-container">
         {% csrf_token %}
 
         <label>Título da Tarefa:</label>
-        <input type="text" name="titulo" required placeholder="Ex: Estudar para a prova">
+        <input type="text" name="titulo" required placeholder="Ex: Estudar para a prova" value="{{ dados.titulo }}">
 
         <label>Descrição (Opcional):</label>
-        <textarea name="descricao" rows="3" placeholder="Detalhes da tarefa..."></textarea>
+        <textarea name="descricao" rows="3" placeholder="Detalhes da tarefa...">{{ dados.descricao }}</textarea>
 
         <label>Categoria:</label>
         <select name="categoria" required>
             <option value="">Selecione uma Categoria</option>
             {% for categoria in categorias %}
-                <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                <option value="{{ categoria.id }}" {% if categoria.id|stringformat:"s" == dados.categoria %}selected{% endif %}>
+                    {{ categoria.nome }}
+                </option>
             {% endfor %}
         </select>
 
         <label>Prazo:</label>
-        <input type="date" name="data_limite" required>
-        <input type="time" name="horario_limite" value="23:59">
+        <input type="date" name="data_limite" required value="{{ dados.data_limite }}">
+        <input type="time" name="horario_limite" value="{% if dados.horario_limite %}{{ dados.horario_limite }}{% else %}23:59{% endif %}">
 
         <label>Quando deseja começar a fazer a tarefa? (Opcional)</label>
-        <input type="date" name="data_execucao">
+        <input type="date" name="data_execucao" value="{{ dados.data_execucao }}">
 
         <button type="submit">Salvar Tarefa</button>
     </form>

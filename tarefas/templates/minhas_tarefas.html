@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Minhas Tarefas</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        h1 { font-size: 60px; color: #077966; margin-bottom: 30px; }
+        
+        .tabela-container { width: 80%; max-height: 1000px; overflow-y: auto; margin: 0 auto; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border-radius: 10px; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: center; border-bottom: 1px solid #ddd; font-size: 30px; }
+        th { background-color: #077966; color: white; font-weight: bold; position: sticky; top: 0; z-index: 1; }
+        tr { background-color: #c2fcec6d; }
+        tr:hover { background-color: #94e4cd70; }
+        
+        .voltar { font-size: 25px; display: inline-block; margin-top: 30px; text-decoration: none; color: #007BFF; }
+        .voltar:hover { color: #1705db; }
+        .vazio { text-align: center; font-style: italic; color: #777; }
+
+        .cor-vermelho { color: #d30c1d; }
+        .cor-laranja { color: #e77e5b; }
+        .cor-azul { color: #2390cb; }
+        .cor-verde { color: #23bf76; }
+
+        .icone-descricao { position: relative; display: inline-block; cursor: pointer; }
+        .icone-descricao .caixa-texto {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 20px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%; 
+            left: 50%;
+            margin-left: -125px; 
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 20px;
+            font-weight: normal;
+            white-space: pre-wrap; 
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); }
+        .icone-descricao .caixa-texto::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent; }
+        .icone-descricao:hover .caixa-texto { visibility: visible; opacity: 1; }
+    </style>
+</head>
+
+<body>
+    <h1>Minhas Tarefas</h1>
+    <div class="tabela-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Prazo Final</th>
+                    <th>Data de Início</th>
+                    <th>Status</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for tarefa in tarefas %}
+                <tr class="cor-{{ tarefa.cor_linha_tabela }}">
+                    <td>
+                        <div style="position: relative; display: inline-block;">
+                            {{ tarefa.nome }}
+                            
+                            {% if tarefa.descricao %}
+                                <div class="icone-descricao" style="position: absolute; top: 0; left: 100%; margin-left: 5px;">
+                                    🔎
+                                    <span class="caixa-texto">{{ tarefa.descricao }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{{ tarefa.categoria.nome }}</td>
+                    <td>{{ tarefa.data_limite|date:"d/m/Y" }} {{ tarefa.horario_limite|time:"H:i" }}</td>
+                    <td>{{ tarefa.data_execucao|date:"d/m/Y"|default:"-----" }}</td>
+                    <td>
+                        <a href="/alterar_status/{{ tarefa.id }}/"
+                           style="text-decoration: none; padding: 12px; border-radius: 30px; color: white; font-weight: bold; font-size: 23px;
+                                  {% if tarefa.status == 'Pendente' %} background-color:#fb8383bb; color: #333; /* Vermelho */
+                                  {% else %} background-color: #28a745; /* Verde */
+                                  {% endif %}">
+                            {{ tarefa.status }}
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="/deletar_tarefa/{{ tarefa.id }}/"
+                        style="text-decoration: none; font-size: 30px;"
+                        onclick="return confirm('Tem certeza que deseja excluir esta tarefa definitivamente?');">
+                        🗑️
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="vazio">Nenhuma tarefa encontrada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="/" class="voltar">⇐ Voltar ao Menu Principal</a>
+</body>
+</html>
