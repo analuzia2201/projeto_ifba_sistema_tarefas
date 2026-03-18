@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br"> 
+
+<head>
+    <meta charset="UTF-8">
+    <title> Cadastrar Categoria</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 80px; }
+        .form-container { display: flex; flex-direction: column; width: 600px; margin: 0 auto; gap: 15px; }
+        h1 { font-size: 60px; margin-bottom: 40px; color: #077966; }
+        label { font-size: 30px; font-weight: bold; color: #4d6057; }
+        input, button { padding: 25px; font-size: 30px; border-radius: 40px; border: 1px solid #ccc; }
+        button { background-color: #27cf67; color: rgb(1, 45, 43); border: none; cursor: pointer; font-weight: bold; }
+        button:hover { color: #06a543; color: white;}
+        .voltar { font-size: 25px; margin-top: 20px; display: inline-block; text-decoration: none; color: #007BFF; }
+        .voltar:hover {color: #1705db;}
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+        <div style="margin-bottom: 20px;">
+            {% for message in messages %}
+                <p style="padding: 10px; font-size: 22px; font-weight: bold;
+                        {% if message.tags == 'error' %} background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; 
+                        {% elif message.tags == 'success' %} background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; {% endif %}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h1>Nova Categoria</h1>
+
+    <form method="POST" action="/cadastrar_categoria/" class="form-container">
+        {% csrf_token %}
+
+        <label>Nome da Nova Categoria:</label>
+        {{ form.nome }}
+
+        <button type="submit">Salvar Categoria</button>
+    </form>
+
+    <a href="/" class="voltar">⇐ Voltar ao Menu Principal</a>
+</body>
+</html>

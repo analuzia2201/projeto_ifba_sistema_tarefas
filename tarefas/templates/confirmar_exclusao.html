@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Exclusão</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 1px; }
+        .caixa-alerta { background-color: #ffe6e6; border: 2px solid #ff4d4d; border-radius: 10px; width: 800px; margin: 0 auto; padding: 40px; text-align: left; }
+        h1 { color: #cb0202; }
+        h2 { color: #3f3f3f; font-size: 27px; }
+        .tarefa-item { font-size: 25px; color: #3f3f3f; margin-bottom: 10px; }
+        .btn-deletar { background-color: #ff4d4d; color: white; padding: 15px 30px; font-size: 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;}
+        .voltar { font-size: 22px; display: inline-block; margin-top: 20px; text-decoration: none; color: #007BFF; }
+    </style>
+</head>
+
+<body>
+    <h1>Tem certeza que deseja deletar?</h1>
+
+    <div class="caixa-alerta">
+        <h2>Categoria: {{ categoria.nome }}</h2>
+        <p style="font-size: 23px; font-weight: bold; color: #cc0000;">
+            Atenção! As seguintes tarefas pertencem a esta categoria e serão APAGADAS PERMANENTEMENTE:
+        </p>
+        
+        <ul>
+            {% for tarefa in tarefas %}
+                <li class="tarefa-item">
+                    {{ tarefa.nome }} 
+                    <span style="font-size: 20px; color: #6e6e6e;">(Prazo: {{ tarefa.data_limite|date:"d/m/Y" }})</span>
+                </li>
+            {% empty %}
+                <li class="tarefa-item" style="color: green;">
+                    Que alívio! Nenhuma tarefa está usando esta categoria no momento. É seguro deletar.
+                </li>
+            {% endfor %}
+        </ul>
+
+        <form method="POST" action="/confirmar_exclusao/{{ categoria.id }}/" style="text-align: center;">
+            {% csrf_token %}
+            <button type="submit" class="btn-deletar">Sim, Deletar Tudo!</button>
+        </form>
+    </div>
+
+    <a href="/deletar_categoria/" class="voltar">Cancelar e Voltar</a>
+
+</body>
+</html>

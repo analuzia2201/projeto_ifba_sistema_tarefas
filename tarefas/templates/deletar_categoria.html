@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Deletar Categorias</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 80px; }
+        h1 { font-size: 60px; margin-bottom: 40px; color: #077966; }
+        .voltar { font-size: 25px; margin-top: 20px; display: inline-block; text-decoration: none; color: #007BFF; }
+        .voltar:hover {color: #1705db;}
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+        <div style="margin-bottom: 10px;">
+            {% for message in messages %}
+                <p style="padding: 15px; font-size: 22px; font-weight: bold; margin-top: 5px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h1>Deletar Categorias</h1>
+    
+    <div style="width: 500px; margin: 0 auto; text-align: left;">
+        <ul style="list-style-type: none; padding: 0;">
+            {% for cat in categorias %}
+                <li style="background-color: #c2fcec6d; margin-bottom: 5px; padding: 15px; border-radius: 50px; border: 1px solid #dddddd; display: flex; justify-content: space-between; align-items: center; font-size: 25px; color: #2a4d3f;">
+                    
+                    <strong>{{ cat.nome }}</strong>
+                    
+                    <a href="/confirmar_exclusao/{{ cat.id }}/" 
+                       style="text-decoration: none; font-size: 30px; padding: 20px; border-radius: 10px; color: white;"
+                       title="Deletar Categoria">
+                        🗑️
+                    </a>
+
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="/" class="voltar">⇐ Voltar para o Menu Principal</a>
+
+</body>
+</html>

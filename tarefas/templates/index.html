@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br"> 
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Tarefas - Menu</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 40px; }
+        .menu-container { display: flex; flex-direction: column; width: 500px; margin: 0 auto; gap: 10px; }
+        h1 { font-size: 70px; margin-bottom: 10px; color: #056354; }
+        h2 { font-size: 50px; margin-top: 5px; margin-bottom: 70px; color: #34a08e; }
+        .btn { padding: 40px; font-size: 30px; background-color: #6de5cb; color: rgb(1, 45, 43); text-decoration: none; border-radius: 50px; font-weight: bold; }
+        .btn:hover { background-color: #28a279; color: white; }
+        .btn-danger { background-color: #6de5cb; }
+        .btn-danger:hover { background-color: #f13646; color: white; }
+    </style>
+</head>
+
+<body>
+    <h1>Sistema de Tarefas</h1>
+    <h2>Menu Principal</h2>
+    
+    <div class="menu-container">
+        <a href="/cadastrar_categoria/" class="btn">Cadastrar Categoria</a>
+        <a href="/cadastrar_tarefa/" class="btn">Cadastrar Tarefa</a>
+        <a href="/minhas_tarefas/" class="btn">Minhas Tarefas</a>
+        <a href="/deletar_categoria/" class="btn btn-danger">Deletar Categoria</a>
+    </div>
+</body>
+</html>
